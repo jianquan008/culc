@@ -12,12 +12,15 @@ import {
 import { Display } from '../Display/Display';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import { History } from '../History/History';
+import { ModeToggle } from '../ModeToggle/ModeToggle';
+import { AngleModeSelector } from '../AngleModeSelector/AngleModeSelector';
+import { ScientificButtonPanel } from '../ScientificButtonPanel/ScientificButtonPanel';
 import { FUNCTIONS, OPERATORS } from '../../constants/calculator';
 import './Calculator.css';
 
 export const Calculator: React.FC = () => {
   const dispatch = useDispatch();
-  const { display, expression, isError } = useSelector((state: RootState) => state.calculator);
+  const { display, expression, isError, isScientificMode } = useSelector((state: RootState) => state.calculator);
 
   useEffect(() => {
     dispatch(loadHistory());
@@ -81,11 +84,14 @@ export const Calculator: React.FC = () => {
 
   return (
     <div className="calculator">
+      <ModeToggle />
       <Display 
         value={display} 
         expression={expression} 
         isError={isError} 
       />
+      {isScientificMode && <AngleModeSelector />}
+      {isScientificMode && <ScientificButtonPanel />}
       <ButtonPanel
         onNumberClick={handleNumberClick}
         onOperatorClick={handleOperatorClick}

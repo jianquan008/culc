@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { CalculatorEngine } from '../../src/services/calculator-engine';
-import { CalculatorError } from '../../src/types/calculator';
 
 describe('CalculatorEngine', () => {
   let engine: CalculatorEngine;

@@ -1,0 +1,37 @@
+.angle-mode-selector {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.angle-mode-button {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #6c757d;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.angle-mode-button:hover {
+  background: #e9ecef;
+}
+
+.angle-mode-button.active {
+  background: #007bff;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .angle-mode-button {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+}

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 
 describe('Calculator E2E Tests', () => {
   const baseUrl = 'http://localhost:3001';

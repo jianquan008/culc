@@ -24,15 +24,6 @@ export class InputHandler {
 
   handleOperatorInput(state: CalculatorState, operator: string): CalculatorState {
     const { display, previousValue, operator: currentOperator, waitingForOperand } = state;
-    
-    if (waitingForOperand) {
-      return {
-        ...state,
-        operator,
-        waitingForOperand: false
-      };
-    }
-
     const inputValue = parseFloat(display);
 
     if (currentOperator === null) {
@@ -41,6 +32,14 @@ export class InputHandler {
         previousValue: inputValue,
         operator,
         waitingForOperand: true
+      };
+    }
+
+    if (waitingForOperand) {
+      return {
+        ...state,
+        operator,
+        waitingForOperand: false
       };
     }
 
@@ -86,7 +85,8 @@ export class InputHandler {
     
     if (/\d/.test(input)) return true;
     if (input === '.' && !currentState.display.includes('.')) return true;
-    if (Object.values(OPERATORS).includes(input as any)) return true;
+    const operatorValues = Object.values(OPERATORS) as string[];
+    if (operatorValues.includes(input)) return true;
     
     return false;
   }

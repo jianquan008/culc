@@ -8,6 +8,12 @@ export interface CalculatorState {
   history: HistoryItem[];
   isError: boolean;
   errorMessage: string;
+  // Scientific calculator extensions
+  isScientificMode: boolean;
+  angleMode: 'DEG' | 'RAD' | 'GRAD';
+  memory: number[];
+  lastFunction: string | null;
+  useScientificNotation: boolean;
 }
 
 export interface HistoryItem {

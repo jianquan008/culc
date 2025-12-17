@@ -3,6 +3,7 @@ import { CalculatorState, HistoryItem } from '../../types/calculator';
 import { CalculatorEngine } from '../../services/calculator-engine';
 import { InputHandler } from '../../services/input-handler';
 import { StorageService } from '../../services/storage';
+import { ScientificEngine, AngleMode } from '../../services/scientific-engine';
 
 const initialState: CalculatorState = {
   display: '0',
@@ -13,12 +14,19 @@ const initialState: CalculatorState = {
   waitingForOperand: false,
   history: [],
   isError: false,
-  errorMessage: ''
+  errorMessage: '',
+  // Scientific calculator extensions
+  isScientificMode: false,
+  angleMode: 'DEG',
+  memory: [0],
+  lastFunction: null,
+  useScientificNotation: false
 };
 
 const calculatorEngine = new CalculatorEngine();
 const inputHandler = new InputHandler();
 const storageService = new StorageService();
+const scientificEngine = new ScientificEngine();
 
 export const calculatorSlice = createSlice({
   name: 'calculator',
@@ -104,6 +112,156 @@ export const calculatorSlice = createSlice({
     clearHistory: (state) => {
       state.history = [];
       storageService.clearHistory();
+    },
+
+    // Scientific calculator actions
+    toggleScientificMode: (state) => {
+      state.isScientificMode = !state.isScientificMode;
+    },
+
+    setAngleMode: (state, action: PayloadAction<'DEG' | 'RAD' | 'GRAD'>) => {
+      state.angleMode = action.payload;
+    },
+
+    executeScientificFunction: (state, action: PayloadAction<{ func: string; value: number }>) => {
+      const { func, value } = action.payload;
+      state.lastFunction = func;
+      
+      try {
+        let result: number;
+        const angleMode = state.angleMode as AngleMode;
+        
+        switch (func) {
+          case 'sin':
+            result = scientificEngine.sin(value, angleMode);
+            break;
+          case 'cos':
+            result = scientificEngine.cos(value, angleMode);
+            break;
+          case 'tan':
+            result = scientificEngine.tan(value, angleMode);
+            break;
+          case 'asin':
+            result = scientificEngine.asin(value, angleMode);
+            break;
+          case 'acos':
+            result = scientificEngine.acos(value, angleMode);
+            break;
+          case 'atan':
+            result = scientificEngine.atan(value, angleMode);
+            break;
+          case 'sinh':
+            result = scientificEngine.sinh(value);
+            break;
+          case 'cosh':
+            result = scientificEngine.cosh(value);
+            break;
+          case 'tanh':
+            result = scientificEngine.tanh(value);
+            break;
+          case 'ln':
+            result = scientificEngine.ln(value);
+            break;
+          case 'log':
+            result = scientificEngine.log(value);
+            break;
+          case 'log2':
+            result = scientificEngine.log2(value);
+            break;
+          case 'exp':
+            result = scientificEngine.exp(value);
+            break;
+          case 'pow10':
+            result = scientificEngine.pow10(value);
+            break;
+          case 'sqrt':
+            result = scientificEngine.sqrt(value);
+            break;
+          case 'cbrt':
+            result = scientificEngine.cbrt(value);
+            break;
+          case 'square':
+            result = scientificEngine.power(value, 2);
+            break;
+          case 'factorial':
+            result = scientificEngine.factorial(value);
+            break;
+          case 'reciprocal':
+            result = scientificEngine.reciprocal(value);
+            break;
+          case 'absolute':
+            result = scientificEngine.absolute(value);
+            break;
+          case 'percentage':
+            result = scientificEngine.percentage(value);
+            break;
+          default:
+            throw new Error(`Unknown function: ${func}`);
+        }
+        
+        state.display = result.toString();
+        state.waitingForOperand = true;
+        state.isError = false;
+        state.errorMessage = '';
+        
+      } catch (error) {
+        state.isError = true;
+        state.errorMessage = error instanceof Error ? error.message : 'Calculation error';
+        state.display = 'Error';
+      }
+    },
+
+    memoryStore: (state, action: PayloadAction<{ value: number; slot?: number }>) => {
+      const { value, slot = 0 } = action.payload;
+      while (state.memory.length <= slot) {
+        state.memory.push(0);
+      }
+      state.memory[slot] = value;
+    },
+
+    memoryRecall: (state, action: PayloadAction<{ slot?: number }>) => {
+      const { slot = 0 } = action.payload;
+      if (state.memory[slot] !== undefined) {
+        state.display = state.memory[slot].toString();
+        state.waitingForOperand = true;
+      }
+    },
+
+    memoryAdd: (state, action: PayloadAction<{ value: number; slot?: number }>) => {
+      const { value, slot = 0 } = action.payload;
+      while (state.memory.length <= slot) {
+        state.memory.push(0);
+      }
+      state.memory[slot] += value;
+    },
+
+    memorySubtract: (state, action: PayloadAction<{ value: number; slot?: number }>) => {
+      const { value, slot = 0 } = action.payload;
+      while (state.memory.length <= slot) {
+        state.memory.push(0);
+      }
+      state.memory[slot] -= value;
+    },
+
+    memoryClear: (state, action: PayloadAction<{ slot?: number }>) => {
+      const { slot = 0 } = action.payload;
+      if (state.memory[slot] !== undefined) {
+        state.memory[slot] = 0;
+      }
+    },
+
+    insertConstant: (state, action: PayloadAction<string>) => {
+      const constants: Record<string, number> = {
+        PI: Math.PI,
+        E: Math.E,
+        PHI: (1 + Math.sqrt(5)) / 2
+      };
+      
+      const value = constants[action.payload];
+      if (value !== undefined) {
+        state.display = value.toString();
+        state.waitingForOperand = true;
+      }
     }
   }
 });
@@ -116,7 +274,16 @@ export const {
   clear,
   loadHistory,
   loadHistoryItem,
-  clearHistory
+  clearHistory,
+  toggleScientificMode,
+  setAngleMode,
+  executeScientificFunction,
+  memoryStore,
+  memoryRecall,
+  memoryAdd,
+  memorySubtract,
+  memoryClear,
+  insertConstant
 } = calculatorSlice.actions;
 
 export default calculatorSlice.reducer;

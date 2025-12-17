@@ -1,0 +1,55 @@
+.scientific-button-panel {
+  margin-bottom: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.function-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.function-row:last-child {
+  margin-bottom: 0;
+}
+
+.scientific-button-panel .button {
+  min-height: 45px;
+  font-size: 0.9rem;
+  background: #e9ecef;
+  color: #495057;
+  border-radius: 6px;
+}
+
+.scientific-button-panel .button:hover {
+  background: #dee2e6;
+  transform: translateY(-1px);
+}
+
+.scientific-button-panel .button--function {
+  background: #6c757d;
+  color: white;
+}
+
+.scientific-button-panel .button--function:hover {
+  background: #5a6268;
+}
+
+@media (max-width: 768px) {
+  .scientific-button-panel {
+    padding: 8px;
+  }
+  
+  .function-row {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  
+  .scientific-button-panel .button {
+    min-height: 40px;
+    font-size: 0.8rem;
+  }
+}

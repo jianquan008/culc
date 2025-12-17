@@ -131,7 +131,8 @@ export class CalculatorEngine {
   }
 
   private isOperator(char: string): boolean {
-    return Object.values(OPERATORS).includes(char as any) || char === '*' || char === '/';
+    const operatorValues = Object.values(OPERATORS) as string[];
+    return operatorValues.includes(char) || char === '*' || char === '/';
   }
 
   private createErrorResult(error: CalculatorError): CalculationResult {
