@@ -1,0 +1,72 @@
+:root {
+  /* 颜色主题 */
+  --color-primary: #ff9500;
+  --color-primary-hover: #e6850e;
+  --color-secondary: #a6a6a6;
+  --color-secondary-hover: #8f8f8f;
+  
+  /* 背景色 */
+  --color-bg-main: #e0e0e0;
+  --color-bg-calculator: #f5f5f5;
+  --color-bg-display: #000;
+  --color-bg-button: #f0f0f0;
+  --color-bg-button-hover: #e0e0e0;
+  
+  /* 文字颜色 */
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-light: #999;
+  --color-text-inverse: #fff;
+  --color-text-error: #ff6b6b;
+  
+  /* 边框和阴影 */
+  --color-border: #eee;
+  --color-border-light: #f0f0f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+  
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-xxl: 24px;
+  
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  /* 字体大小 */
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.9rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.1rem;
+  --font-size-xl: 1.2rem;
+  --font-size-xxl: 2.5rem;
+  --font-size-display: 3rem;
+  
+  /* 过渡动画 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* 深色主题 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-main: #1a1a1a;
+    --color-bg-calculator: #2d2d2d;
+    --color-bg-display: #000;
+    --color-bg-button: #404040;
+    --color-bg-button-hover: #4a4a4a;
+    
+    --color-text-primary: #fff;
+    --color-text-secondary: #ccc;
+    --color-text-light: #999;
+    --color-border: #404040;
+    --color-border-light: #333;
+  }
+}

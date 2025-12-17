@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Browser Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-container {
+            display: flex;
+            gap: 20px;
+        }
+        .calculator-frame {
+            flex: 1;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .test-results {
+            flex: 1;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculator Browser Test Runner</h1>
+    
+    <div class="controls">
+        <button onclick="runTests()">Run Tests</button>
+        <button onclick="clearResults()">Clear Results</button>
+        <button onclick="reloadCalculator()">Reload Calculator</button>
+    </div>
+    
+    <div class="test-container">
+        <div class="calculator-frame">
+            <h3>Calculator App</h3>
+            <iframe id="calculatorFrame" src="http://localhost:3001/"></iframe>
+        </div>
+        
+        <div class="test-results" id="testResults">
+            <h3>Test Results</h3>
+            <div>Click "Run Tests" to start testing...</div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = document.getElementById('testResults');
+        
+        function log(message) {
+            testResults.innerHTML += message + '\n';
+            testResults.scrollTop = testResults.scrollHeight;
+        }
+        
+        function clearResults() {
+            testResults.innerHTML = '<h3>Test Results</h3>\n';
+        }
+        
+        function reloadCalculator() {
+            document.getElementById('calculatorFrame').src = 'http://localhost:3001/';
+        }
+        
+        async function runTests() {
+            clearResults();
+            log('🚀 Starting browser tests...');
+            
+            const iframe = document.getElementById('calculatorFrame');
+            const calculatorWindow = iframe.contentWindow;
+            const calculatorDocument = iframe.contentDocument;
+            
+            if (!calculatorDocument) {
+                log('❌ Cannot access calculator iframe. Make sure it\'s loaded.');
+                return;
+            }
+            
+            try {
+                // 等待计算器加载
+                await waitForElement(calculatorDocument, '.calculator');
+                log('✅ Calculator app loaded successfully');
+                
+                // 运行测试
+                const results = [];
+                results.push(await testNumberInput(calculatorDocument));
+                results.push(await testBasicCalculation(calculatorDocument));
+                results.push(await testClearFunction(calculatorDocument));
+                results.push(await testHistoryFunction(calculatorDocument));
+                
+                const passed = results.filter(r => r).length;
+                const total = results.length;
+                
+                log(`\n📊 Test Results: ${passed}/${total} tests passed`);
+                
+                if (passed === total) {
+                    log('🎉 All browser tests passed!');
+                } else {
+                    log('⚠️ Some tests failed. Please check the logs above.');
+                }
+                
+            } catch (error) {
+                log('❌ Test execution failed: ' + error.message);
+            }
+        }
+        
+        function waitForElement(doc, selector, timeout = 5000) {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                const checkElement = () => {
+                    const element = doc.querySelector(selector);
+                    if (element) {
+                        resolve(element);
+                    } else if (Date.now() - startTime > timeout) {
+                        reject(new Error(`Element ${selector} not found within ${timeout}ms`));
+                    } else {
+                        setTimeout(checkElement, 100);
+                    }
+                };
+                checkElement();
+            });
+        }
+        
+        async function clickButton(doc, text) {
+            const buttons = Array.from(doc.querySelectorAll('button'));
+            const button = buttons.find(btn => btn.textContent.trim() === text);
+            if (!button) {
+                throw new Error(`Button with text "${text}" not found`);
+            }
+            button.click();
+            await new Promise(resolve => setTimeout(resolve, 200)); // 等待状态更新
+        }
+        
+        function getDisplay(doc) {
+            const display = doc.querySelector('.display__main');
+            return display ? display.textContent.trim() : null;
+        }
+        
+        async function testNumberInput(doc) {
+            log('Testing number input...');
+            await clickButton(doc, '5');
+            const display = getDisplay(doc);
+            if (display === '5') {
+                log('✅ Number input test passed');
+                return true;
+            } else {
+                log(`❌ Number input test failed. Expected: 5, Got: ${display}`);
+                return false;
+            }
+        }
+        
+        async function testBasicCalculation(doc) {
+            log('Testing basic calculation...');
+            // 清除之前的输入
+            await clickButton(doc, 'AC');
+            
+            // 执行 2 + 3 = 5
+            await clickButton(doc, '2');
+            await clickButton(doc, '+');
+            await clickButton(doc, '3');
+            await clickButton(doc, '=');
+            
+            const display = getDisplay(doc);
+            if (display === '5') {
+                log('✅ Basic calculation test passed');
+                return true;
+            } else {
+                log(`❌ Basic calculation test failed. Expected: 5, Got: ${display}`);
+                return false;
+            }
+        }
+        
+        async function testClearFunction(doc) {
+            log('Testing clear function...');
+            await clickButton(doc, '7');
+            await clickButton(doc, 'C');
+            
+            const display = getDisplay(doc);
+            if (display === '0') {
+                log('✅ Clear function test passed');
+                return true;
+            } else {
+                log(`❌ Clear function test failed. Expected: 0, Got: ${display}`);
+                return false;
+            }
+        }
+        
+        async function testHistoryFunction(doc) {
+            log('Testing history function...');
+            // 执行一个计算来生成历史记录
+            await clickButton(doc, 'AC');
+            await clickButton(doc, '4');
+            await clickButton(doc, '×');
+            await clickButton(doc, '6');
+            await clickButton(doc, '=');
+            
+            // 检查历史记录是否更新
+            const historyHeader = doc.querySelector('.history__header');
+            if (historyHeader && historyHeader.textContent.includes('History (1)')) {
+                log('✅ History function test passed');
+                return true;
+            } else {
+                log('❌ History function test failed');
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

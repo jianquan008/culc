@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-12-17T12-53-33",
+  "specsBaseDir": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/specs",
+  "uploadDocsDir": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-17T12-53-33",
+  "uploadedDocs": [
+    {
+      "type": "design",
+      "path": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-17T12-53-33/design-doc.md"
+    },
+    {
+      "type": "requirement",
+      "path": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-17T12-53-33/requirement-doc.md"
+    }
+  ]
+}
