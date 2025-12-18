@@ -1,15 +1,16 @@
 .display {
-  background: #000;
-  color: #fff;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   padding: 20px;
   text-align: right;
   border-radius: 8px;
   margin-bottom: 10px;
+  border: 1px solid var(--border-color);
 }
 
 .display__expression {
   font-size: 0.9rem;
-  color: #999;
+  color: var(--text-secondary);
   margin-bottom: 5px;
   min-height: 20px;
   transition: opacity 0.3s ease;

@@ -15,6 +15,7 @@ import { History } from '../History/History';
 import { ModeToggle } from '../ModeToggle/ModeToggle';
 import { AngleModeSelector } from '../AngleModeSelector/AngleModeSelector';
 import { ScientificButtonPanel } from '../ScientificButtonPanel/ScientificButtonPanel';
+import { ThemeToggle } from '../ThemeToggle';
 import { FUNCTIONS, OPERATORS } from '../../constants/calculator';
 import './Calculator.css';
 
@@ -84,7 +85,10 @@ export const Calculator: React.FC = () => {
 
   return (
     <div className="calculator">
-      <ModeToggle />
+      <div className="calculator-header">
+        <ModeToggle />
+        <ThemeToggle />
+      </div>
       <Display 
         value={display} 
         expression={expression} 

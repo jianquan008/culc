@@ -6,11 +6,15 @@
   transition: all 0.2s ease;
   min-height: 60px;
   border-radius: 8px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: 1px solid var(--border-color);
 }
 
 .button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--shadow);
+  background: var(--button-hover);
 }
 
 .button:active {
@@ -18,23 +22,23 @@
 }
 
 .button--number {
-  background: #f0f0f0;
-  color: #333;
+  background: var(--button-bg);
+  color: var(--button-text);
 }
 
 .button--operator {
-  background: #ff9500;
-  color: white;
+  background: var(--operator-bg);
+  color: var(--operator-text);
 }
 
 .button--function {
-  background: #a6a6a6;
-  color: white;
+  background: var(--button-bg);
+  color: var(--button-text);
 }
 
 .button--equals {
-  background: #ff9500;
-  color: white;
+  background: var(--equals-bg);
+  color: var(--equals-text);
 }
 
 @media (max-width: 768px) {

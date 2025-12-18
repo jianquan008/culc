@@ -2,9 +2,16 @@
   width: 320px;
   margin: 50px auto;
   padding: 20px;
-  background: #f5f5f5;
+  background: var(--bg-secondary);
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 @media (max-width: 768px) {
