@@ -10,6 +10,7 @@ import {
   loadHistory 
 } from '../../store/slices/calculatorSlice';
 import { addHistoryItem, toggleHistoryPanel } from '../../store/slices/historySlice';
+import { togglePanelVisibility, addFormula } from '../../store/slices/formulaSlice';
 import { Display } from '../Display/Display';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import { History } from '../History/History';
@@ -17,6 +18,7 @@ import { HistoryPanel } from '../History/HistoryPanel';
 import { ModeToggle } from '../ModeToggle/ModeToggle';
 import { AngleModeSelector } from '../AngleModeSelector/AngleModeSelector';
 import { ScientificButtonPanel } from '../ScientificButtonPanel/ScientificButtonPanel';
+import { FormulaPanel } from '../FormulaPanel/FormulaPanel';
 import { ThemeToggle } from '../ThemeToggle';
 import { useHistoryPersistence } from '../../hooks/useHistoryPersistence';
 import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
@@ -29,6 +31,7 @@ export const Calculator: React.FC = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
   const { display, expression, isError, isScientificMode } = useSelector((state: RootState) => state.calculator);
   const { isVisible } = useSelector((state: RootState) => state.history);
+  const { isPanelVisible } = useSelector((state: RootState) => state.formula);
   const [lastExpression, setLastExpression] = useState('');
 
   useHistoryPersistence();
@@ -97,6 +100,31 @@ export const Calculator: React.FC = () => {
     dispatch(toggleHistoryPanel());
   };
 
+  const handleSaveFormula = () => {
+    if (expression && display && !isError) {
+      const formulaName = prompt('请输入公式名称:', `公式_${Date.now()}`);
+      if (formulaName) {
+        const formula = {
+          id: `formula_${Date.now()}`,
+          name: formulaName,
+          formula: expression,
+          expression: expression,
+          category: 'basic',
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          usageCount: 0,
+          lastUsedAt: Date.now(),
+          tags: [],
+          isFavorite: false
+        };
+        dispatch(addFormula(formula));
+        alert('公式保存成功！');
+      }
+    } else {
+      alert('请先完成一个计算再保存公式');
+    }
+  };
+
   return (
     <div 
       ref={calculatorRef}
@@ -111,6 +139,12 @@ export const Calculator: React.FC = () => {
             onClick={() => dispatch(toggleHistoryPanel())}
           >
             📋
+          </button>
+          <button 
+            className="formula-toggle-btn"
+            onClick={handleSaveFormula}
+          >
+            ⭐
           </button>
           <ThemeToggle />
         </div>
@@ -132,6 +166,10 @@ export const Calculator: React.FC = () => {
       <HistoryPanel 
         isVisible={isVisible}
         onItemClick={handleHistoryItemClick}
+      />
+      <FormulaPanel 
+        visible={true}
+        onToggle={() => dispatch(togglePanelVisibility())}
       />
     </div>
   );
