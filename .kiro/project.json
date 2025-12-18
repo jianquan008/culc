@@ -7,6 +7,20 @@
   "timestamp": "2025-12-17T07:29:30.248Z",
   "requirements": [
     {
+      "id": "1766030344372",
+      "featureName": "【计算器-历史记录】概要设计",
+      "startTime": "2025-12-18T03:56:34.291Z",
+      "endTime": "2025-12-18T04:04:45.510Z",
+      "files": [
+        "requirements.md",
+        "design.md",
+        "tasks.md"
+      ],
+      "timestamp": "2025-12-18T03:59:04.372Z",
+      "status": "completed",
+      "isWorkflowItem": true
+    },
+    {
       "id": "1766027820851",
       "featureName": "【计算器-主题切换】概要设计",
       "description": "完成需求分析和Spec文档生成",
