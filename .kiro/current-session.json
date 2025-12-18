@@ -1,15 +1,15 @@
 {
-  "timestamp": "2025-12-18T03-56-43",
+  "timestamp": "2025-12-18T04-18-35",
   "specsBaseDir": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/specs",
-  "uploadDocsDir": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-18T03-56-43",
+  "uploadDocsDir": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-18T04-18-35",
   "uploadedDocs": [
     {
       "type": "design",
-      "path": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-18T03-56-43/design-doc.md"
+      "path": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-18T04-18-35/design-doc.md"
     },
     {
       "type": "requirement",
-      "path": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-18T03-56-43/requirement-doc.md"
+      "path": "/Users/kb/Desktop/Bosi/Client/Web/cu/.kiro/uploaded-docs/2025-12-18T04-18-35/requirement-doc.md"
     }
   ]
 }

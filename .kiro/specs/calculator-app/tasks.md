@@ -22,7 +22,7 @@ _需求: NFR-2.1 浏览器兼容性_
 - [✅] 安装Redux Toolkit和React-Redux
 - [✅] 安装Ant Design和Ant Design Mobile
 - [✅] 安装decimal.js处理精度问题
-- [ ] 安装测试相关依赖（Jest, React Testing Library）
+- [✅] 安装测试相关依赖（Jest, React Testing Library）
 - [✅] 配置TypeScript严格模式
 
 ## 2. 核心计算功能开发

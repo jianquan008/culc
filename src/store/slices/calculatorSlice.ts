@@ -262,6 +262,34 @@ export const calculatorSlice = createSlice({
         state.display = value.toString();
         state.waitingForOperand = true;
       }
+    },
+
+    // 键盘快捷键相关actions
+    copyResult: (state) => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(state.display);
+      }
+    },
+    
+    pasteValue: (state, action: PayloadAction<string>) => {
+      const value = action.payload;
+      if (value && /^\d*\.?\d*$/.test(value)) {
+        state.display = value;
+        state.previousValue = 0;
+        state.operator = null;
+        state.waitingForOperand = false;
+        state.isError = false;
+        state.errorMessage = '';
+      }
+    },
+
+    deleteLast: (state) => {
+      if (state.display.length > 1) {
+        state.display = state.display.slice(0, -1);
+      } else {
+        state.display = '0';
+      }
+      state.isError = false;
     }
   }
 });
@@ -283,7 +311,10 @@ export const {
   memoryAdd,
   memorySubtract,
   memoryClear,
-  insertConstant
+  insertConstant,
+  copyResult,
+  pasteValue,
+  deleteLast
 } = calculatorSlice.actions;
 
 export default calculatorSlice.reducer;

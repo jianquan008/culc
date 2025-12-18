@@ -1,5 +1,6 @@
 import React from 'react';
 import { ButtonType } from '../../types/calculator';
+import { ShortcutTooltip } from '../ShortcutTooltip/ShortcutTooltip';
 import './Button.css';
 
 interface ButtonProps {
@@ -7,9 +8,16 @@ interface ButtonProps {
   type: ButtonType;
   onClick: (value: string) => void;
   disabled?: boolean;
+  shortcut?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ value, type, onClick, disabled = false }) => {
+export const Button: React.FC<ButtonProps> = ({ 
+  value, 
+  type, 
+  onClick, 
+  disabled = false,
+  shortcut 
+}) => {
   const handleClick = () => {
     if (!disabled) {
       onClick(value);
@@ -17,12 +25,15 @@ export const Button: React.FC<ButtonProps> = ({ value, type, onClick, disabled =
   };
 
   return (
-    <button
-      className={`button button--${type}`}
-      onClick={handleClick}
-      disabled={disabled}
-    >
-      {value}
-    </button>
+    <ShortcutTooltip shortcut={shortcut}>
+      <button
+        className={`button button--${type}`}
+        onClick={handleClick}
+        disabled={disabled}
+        data-key={shortcut}
+      >
+        {value}
+      </button>
+    </ShortcutTooltip>
   );
 };

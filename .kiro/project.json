@@ -7,6 +7,22 @@
   "timestamp": "2025-12-17T07:29:30.248Z",
   "requirements": [
     {
+      "id": "1766031676500",
+      "featureName": "【计算器-键盘快捷键】概要设计",
+      "startTime": "2025-12-18T04:18:26.654Z",
+      "endTime": "2025-12-18T04:29:54.020Z",
+      "codeLines": 2065,
+      "fileCount": 29,
+      "files": [
+        "requirements.md",
+        "design.md",
+        "tasks.md"
+      ],
+      "timestamp": "2025-12-18T04:21:16.500Z",
+      "status": "completed",
+      "isWorkflowItem": true
+    },
+    {
       "id": "1766030344372",
       "featureName": "【计算器-历史记录】概要设计",
       "startTime": "2025-12-18T03:56:34.291Z",
